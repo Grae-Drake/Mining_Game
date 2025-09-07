@@ -256,9 +256,9 @@
                 };
 
                 this.unlockCosts = {
-                    2: 100,
-                    3: 500,
-                    4: 2000,
+                    2: 10,
+                    3: 50,
+                    4: 200,
                     5: 10000
                 };
 
@@ -393,7 +393,7 @@
                 const nextLayer = this.currentLayer + 1;
                 const cost = this.unlockCosts[nextLayer];
                 
-                if (this.money >= cost && nextLayer <= 3) {
+                if (this.money >= cost && nextLayer <= 5) {
                     this.money -= cost;
                     this.currentLayer = nextLayer;
                     this.generateGrid();
