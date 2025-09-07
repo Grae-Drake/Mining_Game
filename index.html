@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Mining Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #2c3e50;
+            color: white;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .game-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            background-color: #34495e;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .stats {
+            display: flex;
+            gap: 20px;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #f39c12;
+        }
+
+        .mining-grid {
+            display: grid;
+            grid-template-columns: repeat(10, 50px);
+            gap: 2px;
+            margin: 20px 0;
+            justify-content: center;
+        }
+
+        .tile {
+            width: 50px;
+            height: 50px;
+            border: 1px solid #555;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+
+        .tile:hover {
+            transform: scale(1.1);
+            border-color: #f39c12;
+        }
+
+        .tile.unmined {
+            background-color: #8b7355;
+        }
+
+        .tile.mined {
+            background-color: #2c3e50;
+            cursor: default;
+        }
+
+        .tile.mined:hover {
+            transform: none;
+            border-color: #555;
+        }
+
+        .shop {
+            background-color: #34495e;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .shop h2 {
+            margin-top: 0;
+            color: #f39c12;
+        }
+
+        .inventory {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .inventory-item {
+            background-color: #2c3e50;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            min-width: 80px;
+        }
+
+        .sell-btn {
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+
+        .sell-btn:hover {
+            background-color: #229954;
+        }
+
+        .sell-btn:disabled {
+            background-color: #7f8c8d;
+            cursor: not-allowed;
+        }
+
+        .progress {
+            background-color: #34495e;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .progress h3 {
+            margin-top: 0;
+            color: #f39c12;
+        }
+
+        .unlock-btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        .unlock-btn:hover {
+            background-color: #2980b9;
+        }
+
+        .unlock-btn:disabled {
+            background-color: #7f8c8d;
+            cursor: not-allowed;
+        }
+
+        .layer-info {
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+            color: #f39c12;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <div class="header">
+            <h1>Mining Game</h1>
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-value" id="money">$0</div>
+                    <div>Money</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="totalMined">0</div>
+                    <div>Tiles Mined</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="layer-info" id="layerInfo">Layer 1 - Surface</div>
+        
+        <div class="mining-grid" id="miningGrid"></div>
+
+        <div class="shop">
+            <h2>Shop & Inventory</h2>
+            <div class="inventory" id="inventory"></div>
+        </div>
+
+        <div class="progress">
+            <h3>Progression</h3>
+            <div id="progressInfo">Mine more to unlock deeper layers with better resources!</div>
+            <button class="unlock-btn" id="unlockBtn" disabled>Unlock Next Layer ($100)</button>
+        </div>
+    </div>
+
+    <script>
+        class MiningGame {
+            constructor() {
+                this.money = 0;
+                this.totalMined = 0;
+                this.currentLayer = 1;
+                this.grid = [];
+                this.inventory = {
+                    coal: 0,
+                    iron: 0,
+                    gold: 0,
+                    gems: 0
+                };
+
+                this.resources = {
+                    1: { // Layer 1
+                        coal: { chance: 0.4, value: 2, color: '#2c3e50', symbol: 'C' },
+                        iron: { chance: 0.2, value: 5, color: '#95a5a6', symbol: 'I' },
+                        gold: { chance: 0.05, value: 20, color: '#f1c40f', symbol: 'G' },
+                        gems: { chance: 0.01, value: 50, color: '#9b59b6', symbol: '♦' }
+                    },
+                    2: { // Layer 2
+                        coal: { chance: 0.3, value: 3, color: '#2c3e50', symbol: 'C' },
+                        iron: { chance: 0.3, value: 7, color: '#95a5a6', symbol: 'I' },
+                        gold: { chance: 0.15, value: 25, color: '#f1c40f', symbol: 'G' },
+                        gems: { chance: 0.05, value: 75, color: '#9b59b6', symbol: '♦' }
+                    },
+                    3: { // Layer 3
+                        coal: { chance: 0.2, value: 4, color: '#2c3e50', symbol: 'C' },
+                        iron: { chance: 0.25, value: 10, color: '#95a5a6', symbol: 'I' },
+                        gold: { chance: 0.25, value: 35, color: '#f1c40f', symbol: 'G' },
+                        gems: { chance: 0.15, value: 100, color: '#9b59b6', symbol: '♦' }
+                    }
+                };
+
+                this.layerNames = {
+                    1: "Surface",
+                    2: "Underground", 
+                    3: "Deep Caverns"
+                };
+
+                this.unlockCosts = {
+                    2: 100,
+                    3: 500
+                };
+
+                this.initializeGame();
+                this.updateUI();
+            }
+
+            initializeGame() {
+                this.generateGrid();
+                this.renderGrid();
+                this.renderInventory();
+                this.setupEventListeners();
+            }
+
+            generateGrid() {
+                this.grid = [];
+                for (let i = 0; i < 100; i++) { // 10x10 grid
+                    this.grid.push({
+                        mined: false,
+                        resource: null
+                    });
+                }
+            }
+
+            renderGrid() {
+                const gridElement = document.getElementById('miningGrid');
+                gridElement.innerHTML = '';
+                
+                this.grid.forEach((tile, index) => {
+                    const tileElement = document.createElement('div');
+                    tileElement.className = `tile ${tile.mined ? 'mined' : 'unmined'}`;
+                    tileElement.dataset.index = index;
+                    
+                    if (tile.mined && tile.resource) {
+                        const resourceData = this.resources[this.currentLayer][tile.resource];
+                        tileElement.style.backgroundColor = resourceData.color;
+                        tileElement.textContent = resourceData.symbol;
+                    }
+                    
+                    gridElement.appendChild(tileElement);
+                });
+            }
+
+            setupEventListeners() {
+                document.getElementById('miningGrid').addEventListener('click', (e) => {
+                    if (e.target.classList.contains('tile') && !e.target.classList.contains('mined')) {
+                        this.mineTile(parseInt(e.target.dataset.index));
+                    }
+                });
+
+                document.getElementById('unlockBtn').addEventListener('click', () => {
+                    this.unlockNextLayer();
+                });
+            }
+
+            mineTile(index) {
+                const tile = this.grid[index];
+                if (tile.mined) return;
+
+                tile.mined = true;
+                this.totalMined++;
+
+                // Determine what resource was found
+                const layerResources = this.resources[this.currentLayer];
+                const rand = Math.random();
+                let cumulativeChance = 0;
+
+                for (const [resourceType, data] of Object.entries(layerResources)) {
+                    cumulativeChance += data.chance;
+                    if (rand <= cumulativeChance) {
+                        tile.resource = resourceType;
+                        this.inventory[resourceType]++;
+                        break;
+                    }
+                }
+
+                this.renderGrid();
+                this.renderInventory();
+                this.updateUI();
+                this.checkForNewGrid();
+            }
+
+            checkForNewGrid() {
+                const minedCount = this.grid.filter(tile => tile.mined).length;
+                if (minedCount >= 100) {
+                    // All tiles mined, generate new grid
+                    setTimeout(() => {
+                        this.generateGrid();
+                        this.renderGrid();
+                    }, 1000);
+                }
+            }
+
+            renderInventory() {
+                const inventoryElement = document.getElementById('inventory');
+                inventoryElement.innerHTML = '';
+
+                Object.entries(this.inventory).forEach(([resource, count]) => {
+                    const resourceData = this.resources[this.currentLayer][resource];
+                    const itemElement = document.createElement('div');
+                    itemElement.className = 'inventory-item';
+                    
+                    itemElement.innerHTML = `
+                        <div style="color: ${resourceData.color}; font-size: 1.5em;">${resourceData.symbol}</div>
+                        <div>${resource.charAt(0).toUpperCase() + resource.slice(1)}</div>
+                        <div>${count}</div>
+                        <div>$${resourceData.value} each</div>
+                        <button class="sell-btn" onclick="game.sellResource('${resource}')" ${count === 0 ? 'disabled' : ''}>
+                            Sell All ($${count * resourceData.value})
+                        </button>
+                    `;
+                    
+                    inventoryElement.appendChild(itemElement);
+                });
+            }
+
+            sellResource(resourceType) {
+                const count = this.inventory[resourceType];
+                if (count === 0) return;
+
+                const value = this.resources[this.currentLayer][resourceType].value;
+                const totalValue = count * value;
+                
+                this.money += totalValue;
+                this.inventory[resourceType] = 0;
+                
+                this.renderInventory();
+                this.updateUI();
+            }
+
+            unlockNextLayer() {
+                const nextLayer = this.currentLayer + 1;
+                const cost = this.unlockCosts[nextLayer];
+                
+                if (this.money >= cost && nextLayer <= 3) {
+                    this.money -= cost;
+                    this.currentLayer = nextLayer;
+                    this.generateGrid();
+                    this.renderGrid();
+                    this.renderInventory();
+                    this.updateUI();
+                }
+            }
+
+            updateUI() {
+                document.getElementById('money').textContent = `$${this.money}`;
+                document.getElementById('totalMined').textContent = this.totalMined;
+                document.getElementById('layerInfo').textContent = `Layer ${this.currentLayer} - ${this.layerNames[this.currentLayer]}`;
+
+                const unlockBtn = document.getElementById('unlockBtn');
+                const progressInfo = document.getElementById('progressInfo');
+                
+                if (this.currentLayer < 3) {
+                    const nextLayer = this.currentLayer + 1;
+                    const cost = this.unlockCosts[nextLayer];
+                    unlockBtn.textContent = `Unlock ${this.layerNames[nextLayer]} ($${cost})`;
+                    unlockBtn.disabled = this.money < cost;
+                    progressInfo.textContent = `Earn $${cost} to unlock ${this.layerNames[nextLayer]} with better resources!`;
+                } else {
+                    unlockBtn.style.display = 'none';
+                    progressInfo.textContent = 'You have unlocked all layers! Keep mining for maximum profit!';
+                }
+            }
+        }
+
+        // Start the game
+        const game = new MiningGame();
+    </script>
+</body>
+</html>
