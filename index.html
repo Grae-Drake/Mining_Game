@@ -46,7 +46,7 @@
         .mining-grid {
             display: grid;
             grid-template-columns: repeat(10, 50px);
-            gap: 2px;
+            gap: 0px;
             margin: 20px 0;
             justify-content: center;
         }
@@ -54,7 +54,7 @@
         .tile {
             width: 50px;
             height: 50px;
-            border: 1px solid #555;
+            
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -63,9 +63,9 @@
             transition: all 0.2s;
         }
 
-        .tile:hover {
-            transform: scale(1.1);
-            border-color: #f39c12;
+        .tile.unmined:hover {
+            transform: scale(1.0);
+            background-color: #f39c12;
         }
 
         .tile.unmined {
@@ -259,7 +259,7 @@
                     2: 10,
                     3: 50,
                     4: 200,
-                    5: 10000
+                    5: 1000
                 };
 
                 this.initializeGame();
