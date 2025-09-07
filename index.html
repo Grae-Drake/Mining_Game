@@ -231,18 +231,35 @@
                         iron: { chance: 0.25, value: 10, color: '#95a5a6', symbol: 'I' },
                         gold: { chance: 0.25, value: 35, color: '#f1c40f', symbol: 'G' },
                         gems: { chance: 0.15, value: 100, color: '#9b59b6', symbol: '♦' }
+                    },
+                    4: { // Layer 4
+                        coal: { chance: 0.1, value: 4, color: '#2c3e50', symbol: 'C' },
+                        iron: { chance: 0.15, value: 10, color: '#95a5a6', symbol: 'I' },
+                        gold: { chance: 0.30, value: 35, color: '#f1c40f', symbol: 'G' },
+                        gems: { chance: 0.45, value: 100, color: '#9b59b6', symbol: '♦' }
+                    },
+                    5: { // Layer 5
+                        coal: { chance: 0.0, value: 4, color: '#2c3e50', symbol: 'C' },
+                        iron: { chance: 0.1, value: 10, color: '#95a5a6', symbol: 'I' },
+                        gold: { chance: 0.40, value: 35, color: '#f1c40f', symbol: 'G' },
+                        gems: { chance: 0.50, value: 100, color: '#9b59b6', symbol: '♦' }
                     }
                 };
 
                 this.layerNames = {
                     1: "Surface",
                     2: "Underground", 
-                    3: "Deep Caverns"
+                    3: "Deep Caverns",
+                    4: "Abyss",
+                    5: "Deep Dark"
+                    
                 };
 
                 this.unlockCosts = {
                     2: 100,
-                    3: 500
+                    3: 500,
+                    4: 2000,
+                    5: 10000
                 };
 
                 this.initializeGame();
@@ -394,7 +411,7 @@
                 const unlockBtn = document.getElementById('unlockBtn');
                 const progressInfo = document.getElementById('progressInfo');
                 
-                if (this.currentLayer < 3) {
+                if (this.currentLayer < 5) {
                     const nextLayer = this.currentLayer + 1;
                     const cost = this.unlockCosts[nextLayer];
                     unlockBtn.textContent = `Unlock ${this.layerNames[nextLayer]} ($${cost})`;
