@@ -208,78 +208,138 @@
     <script>
         class MiningGame {
             constructor() {
+                // Initialize starting values.
                 this.money = 0;
                 this.totalMined = 0;
                 this.currentLayer = 1;
                 this.grid = [];
-                this.inventory = {
-                    coal: 0,
-                    iron: 0,
-                    gold: 0,
-                    gems: 0,
-                    fossil: 0,
-                    deep_geode: 0
-                };
+                this.inventory = {};
 
+                // Define resources. You can add new resources.
                 this.resources = {
-                    1: { // Layer 1
-                        coal: { chance: 0.4, value: 2, color: '000', svg: '<svg class="resource-icon" viewBox="0 0 24 24"><path fill="#2c3e50" d="M12 2L8 8L12 14L16 8L12 2M6 10L2 16L6 22L10 16L6 10M18 10L14 16L18 22L22 16L18 10Z"/></svg>' },
-                        iron: { chance: 0.2, value: 5, color: '000', svg: '<svg class="resource-icon" viewBox="0 0 24 24"><rect fill="#95a5a6" x="4" y="6" width="16" height="12" rx="2"/></svg>' },
-                        gold: { chance: 0.05, value: 20, color: '000', svg: '<svg class="resource-icon" viewBox="0 0 24 24"><path fill="#f1c40f" d="M12 2L15 9H22L16.5 14L18.5 22L12 18L5.5 22L7.5 14L2 9H9L12 2Z"/></svg>' },
-                        gems: { chance: 0.01, value: 50, color: '000', svg: '<svg class="resource-icon" viewBox="0 0 24 24"><path fill="#9b59b6" d="M6 2L2 8L12 22L22 8L18 2H6M12 4L8.5 8L12 18L15.5 8L12 4Z"/></svg>' },
-                        fossil: { chance: 0.001, value: 999, color: '000', svg: '<svg class="resource-icon" viewBox="0 0 24 24"><circle fill="#8b7355" cx="12" cy="12" r="10"/><path fill="#654321" d="M8 8C8 6 10 6 10 8S8 10 8 8M16 8C16 6 18 6 18 8S16 10 16 8M7 14C7 12 17 12 17 14C17 16 7 16 7 14Z"/><circle fill="#654321" cx="6" cy="11" r="1"/><circle fill="#654321" cx="18" cy="11" r="1"/></svg>'},
-                        deep_geode: { chance: 0, value: 20000, color: '000', svg: '<svg class="resource-icon" viewBox="0 0 24 24"><ellipse fill="#5d4037" cx="12" cy="12" rx="10" ry="8"/><ellipse fill="#8e24aa" cx="12" cy="12" rx="6" ry="4"/><ellipse fill="#e91e63" cx="12" cy="12" rx="3" ry="2"/><circle fill="#ffffff" cx="12" cy="12" r="1"/></svg>'}
-
+                    coal: {
+                        name: "Coal",
+                        value: 2,
+                        color: '#000',
+                        svg: '<svg class="resource-icon" viewBox="0 0 24 24"><path fill="#2c3e50" d="M12 2L8 8L12 14L16 8L12 2M6 10L2 16L6 22L10 16L6 10M18 10L14 16L18 22L22 16L18 10Z"/></svg>',
                     },
-                    2: { // Layer 2
-                        coal: { chance: 0.3, value: 3, color: '000', svg: '<svg class="resource-icon" viewBox="0 0 24 24"><path fill="#2c3e50" d="M12 2L8 8L12 14L16 8L12 2M6 10L2 16L6 22L10 16L6 10M18 10L14 16L18 22L22 16L18 10Z"/></svg>' },
-                        iron: { chance: 0.3, value: 7, color: '000', svg: '<svg class="resource-icon" viewBox="0 0 24 24"><rect fill="#95a5a6" x="4" y="6" width="16" height="12" rx="2"/></svg>' },
-                        gold: { chance: 0.15, value: 25, color: '000', svg: '<svg class="resource-icon" viewBox="0 0 24 24"><path fill="#f1c40f" d="M12 2L15 9H22L16.5 14L18.5 22L12 18L5.5 22L7.5 14L2 9H9L12 2Z"/></svg>' },
-                        gems: { chance: 0.05, value: 75, color: '000', svg: '<svg class="resource-icon" viewBox="0 0 24 24"><path fill="#9b59b6" d="M6 2L2 8L12 22L22 8L18 2H6M12 4L8.5 8L12 18L15.5 8L12 4Z"/></svg>' },
-                        fossil: { chance: 0.005, value: 999, color: '000', svg: '<svg class="resource-icon" viewBox="0 0 24 24"><circle fill="#8b7355" cx="12" cy="12" r="10"/><path fill="#654321" d="M8 8C8 6 10 6 10 8S8 10 8 8M16 8C16 6 18 6 18 8S16 10 16 8M7 14C7 12 17 12 17 14C17 16 7 16 7 14Z"/><circle fill="#654321" cx="6" cy="11" r="1"/><circle fill="#654321" cx="18" cy="11" r="1"/></svg>'},
-                        deep_geode: { chance: 0, value: 20000, color: '000', svg: '<svg class="resource-icon" viewBox="0 0 24 24"><ellipse fill="#5d4037" cx="12" cy="12" rx="10" ry="8"/><ellipse fill="#8e24aa" cx="12" cy="12" rx="6" ry="4"/><ellipse fill="#e91e63" cx="12" cy="12" rx="3" ry="2"/><circle fill="#ffffff" cx="12" cy="12" r="1"/></svg>'}
+                    iron: {
+                        name: "Iron",
+                        value: 5,
+                        color: '#000',
+                        svg: '<svg class="resource-icon" viewBox="0 0 24 24"><rect fill="#95a5a6" x="4" y="6" width="16" height="12" rx="2"/></svg>',
                     },
-                    3: { // Layer 3
-                        coal: { chance: 0.2, value: 4, color: '000', svg: '<svg class="resource-icon" viewBox="0 0 24 24"><path fill="#2c3e50" d="M12 2L8 8L12 14L16 8L12 2M6 10L2 16L6 22L10 16L6 10M18 10L14 16L18 22L22 16L18 10Z"/></svg>' },
-                        iron: { chance: 0.25, value: 10, color: '000', svg: '<svg class="resource-icon" viewBox="0 0 24 24"><rect fill="#95a5a6" x="4" y="6" width="16" height="12" rx="2"/></svg>' },
-                        gold: { chance: 0.25, value: 35, color: '000', svg: '<svg class="resource-icon" viewBox="0 0 24 24"><path fill="#f1c40f" d="M12 2L15 9H22L16.5 14L18.5 22L12 18L5.5 22L7.5 14L2 9H9L12 2Z"/></svg>' },
-                        gems: { chance: 0.15, value: 100, color: '000', svg: '<svg class="resource-icon" viewBox="0 0 24 24"><path fill="#9b59b6" d="M6 2L2 8L12 22L22 8L18 2H6M12 4L8.5 8L12 18L15.5 8L12 4Z"/></svg>' },
-                        fossil: { chance: 0.01, value: 999, color: '000', svg: '<svg class="resource-icon" viewBox="0 0 24 24"><circle fill="#8b7355" cx="12" cy="12" r="10"/><path fill="#654321" d="M8 8C8 6 10 6 10 8S8 10 8 8M16 8C16 6 18 6 18 8S16 10 16 8M7 14C7 12 17 12 17 14C17 16 7 16 7 14Z"/><circle fill="#654321" cx="6" cy="11" r="1"/><circle fill="#654321" cx="18" cy="11" r="1"/></svg>'},
-                        deep_geode: { chance: 0, value: 20000, color: '000', svg: '<svg class="resource-icon" viewBox="0 0 24 24"><ellipse fill="#5d4037" cx="12" cy="12" rx="10" ry="8"/><ellipse fill="#8e24aa" cx="12" cy="12" rx="6" ry="4"/><ellipse fill="#e91e63" cx="12" cy="12" rx="3" ry="2"/><circle fill="#ffffff" cx="12" cy="12" r="1"/></svg>'}
+                    gold: {
+                        name: "Gold",
+                        value: 20,
+                        color: '#000',
+                        svg: '<svg class="resource-icon" viewBox="0 0 24 24"><path fill="#f1c40f" d="M12 2L15 9H22L16.5 14L18.5 22L12 18L5.5 22L7.5 14L2 9H9L12 2Z"/></svg>',
                     },
-                    4: { // Layer 4
-                        coal: { chance: 0.1, value: 4, color: '000', svg: '<svg class="resource-icon" viewBox="0 0 24 24"><path fill="#2c3e50" d="M12 2L8 8L12 14L16 8L12 2M6 10L2 16L6 22L10 16L6 10M18 10L14 16L18 22L22 16L18 10Z"/></svg>' },
-                        iron: { chance: 0.15, value: 10, color: '000', svg: '<svg class="resource-icon" viewBox="0 0 24 24"><rect fill="#95a5a6" x="4" y="6" width="16" height="12" rx="2"/></svg>' },
-                        gold: { chance: 0.25, value: 35, color: '000', svg: '<svg class="resource-icon" viewBox="0 0 24 24"><path fill="#f1c40f" d="M12 2L15 9H22L16.5 14L18.5 22L12 18L5.5 22L7.5 14L2 9H9L12 2Z"/></svg>' },
-                        gems: { chance: 0.45, value: 100, color: '000', svg: '<svg class="resource-icon" viewBox="0 0 24 24"><path fill="#9b59b6" d="M6 2L2 8L12 22L22 8L18 2H6M12 4L8.5 8L12 18L15.5 8L12 4Z"/></svg>' },
-                        fossil: { chance: 0.01, value: 999, color: '000', svg: '<svg class="resource-icon" viewBox="0 0 24 24"><circle fill="#8b7355" cx="12" cy="12" r="10"/><path fill="#654321" d="M8 8C8 6 10 6 10 8S8 10 8 8M16 8C16 6 18 6 18 8S16 10 16 8M7 14C7 12 17 12 17 14C17 16 7 16 7 14Z"/><circle fill="#654321" cx="6" cy="11" r="1"/><circle fill="#654321" cx="18" cy="11" r="1"/></svg>'},
-                        deep_geode: { chance: 0, value: 20000, color: '000', svg: '<svg class="resource-icon" viewBox="0 0 24 24"><ellipse fill="#5d4037" cx="12" cy="12" rx="10" ry="8"/><ellipse fill="#8e24aa" cx="12" cy="12" rx="6" ry="4"/><ellipse fill="#e91e63" cx="12" cy="12" rx="3" ry="2"/><circle fill="#ffffff" cx="12" cy="12" r="1"/></svg>'}
+                    gems: {
+                        name: "Gems",
+                        value: 50,
+                        color: '#000',
+                        svg: '<svg class="resource-icon" viewBox="0 0 24 24"><path fill="#9b59b6" d="M6 2L2 8L12 22L22 8L18 2H6M12 4L8.5 8L12 18L15.5 8L12 4Z"/></svg>',
                     },
-                    5: { // Layer 5
-                        coal: { chance: 0.0, value: 4, color: '000', svg: '<svg class="resource-icon" viewBox="0 0 24 24"><path fill="#2c3e50" d="M12 2L8 8L12 14L16 8L12 2M6 10L2 16L6 22L10 16L6 10M18 10L14 16L18 22L22 16L18 10Z"/></svg>' },
-                        iron: { chance: 0.1, value: 10, color: '000', svg: '<svg class="resource-icon" viewBox="0 0 24 24"><rect fill="#95a5a6" x="4" y="6" width="16" height="12" rx="2"/></svg>' },
-                        gold: { chance: 0.30, value: 35, color: '000', svg: '<svg class="resource-icon" viewBox="0 0 24 24"><path fill="#f1c40f" d="M12 2L15 9H22L16.5 14L18.5 22L12 18L5.5 22L7.5 14L2 9H9L12 2Z"/></svg>' },
-                        gems: { chance: 0.50, value: 100, color: '000', svg: '<svg class="resource-icon" viewBox="0 0 24 24"><path fill="#9b59b6" d="M6 2L2 8L12 22L22 8L18 2H6M12 4L8.5 8L12 18L15.5 8L12 4Z"/></svg>' },
-                        fossil: { chance: 0.02, value: 999, color: '000', svg: '<svg class="resource-icon" viewBox="0 0 24 24"><circle fill="#8b7355" cx="12" cy="12" r="10"/><path fill="#654321" d="M8 8C8 6 10 6 10 8S8 10 8 8M16 8C16 6 18 6 18 8S16 10 16 8M7 14C7 12 17 12 17 14C17 16 7 16 7 14Z"/><circle fill="#654321" cx="6" cy="11" r="1"/><circle fill="#654321" cx="18" cy="11" r="1"/></svg>'},
-                        deep_geode: { chance: 0.015, value: 20000, color: '000', svg: '<svg class="resource-icon" viewBox="0 0 24 24"><ellipse fill="#5d4037" cx="12" cy="12" rx="10" ry="8"/><ellipse fill="#8e24aa" cx="12" cy="12" rx="6" ry="4"/><ellipse fill="#e91e63" cx="12" cy="12" rx="3" ry="2"/><circle fill="#ffffff" cx="12" cy="12" r="1"/></svg>'}
+                    fossil: {
+                        name: "Fossil",
+                        value: 999,
+                        color: '#000',
+                        svg: '<svg class="resource-icon" viewBox="0 0 24 24"><circle fill="#8b7355" cx="12" cy="12" r="10"/><path fill="#654321" d="M8 8C8 6 10 6 10 8S8 10 8 8M16 8C16 6 18 6 18 8S16 10 16 8M7 14C7 12 17 12 17 14C17 16 7 16 7 14Z"/><circle fill="#654321" cx="6" cy="11" r="1"/><circle fill="#654321" cx="18" cy="11" r="1"/></svg>',
+                    },
+                    deep_geode: {
+                        name: "Deep Geode",
+                        value: 20000,
+                        color: '#000',
+                        svg: '<svg class="resource-icon" viewBox="0 0 24 24"><ellipse fill="#5d4037" cx="12" cy="12" rx="10" ry="8"/><ellipse fill="#8e24aa" cx="12" cy="12" rx="6" ry="4"/><ellipse fill="#e91e63" cx="12" cy="12" rx="3" ry="2"/><circle fill="#ffffff" cx="12" cy="12" r="1"/></svg>',
+                    },
+                    dark_iron: {
+                        name: "Dark Iron",
+                        value: 77777,
+                        color: "#000",
+                        svg: '<svg class="resource-icon" viewBox="0 0 24 24"><rect fill="#34495e" x="4" y="6" width="16" height="12" rx="2"/></svg>',
                     }
-                };
+                }
 
-                this.layerNames = {
-                    1: "Surface",
-                    2: "Underground", 
-                    3: "Deep Caverns",
-                    4: "Abyss",
-                    5: "Deep Dark"
-                    
-                };
+                Object.keys(this.resources).forEach((resourceType) => {
+                    this.inventory[resourceType] = 0;
+                });
 
-                this.unlockCosts = {
-                    2: 10,
-                    3: 50,
-                    4: 200,
-                    5: 1000
-                };
+                // Define layers. You can add new layers.
+                this.layers = {
+                    1: {
+                        layerName: "Surface",
+                        unlockCost: 0,
+                        unminedColor: "#8b7355",
+                        layerResources: {
+                            coal: 0.4,
+                            iron: 0.2,
+                            gold: 0.05,
+                            gems: 0.01,
+                            fossil: 0.001,
+                        }
+                    },
+                    2: {
+                        layerName: "Underground", 
+                        unlockCost: 100,
+                        unminedColor: "#8b7355",
+                        layerResources: {
+                            coal: 0.3,
+                            iron: 0.3,
+                            gold: 0.15,
+                            gems: 0.05,
+                            fossil: 0.005,
+                        }
+                    },
+                    3: {
+                        layerName: "Deep Caverns",
+                        unlockCost: 500,
+                        unminedColor: "#8b7355",
+                        layerResources: {
+                            coal: 0.2,
+                            iron: 0.25,
+                            gold: 0.25,
+                            gems: 0.15,
+                            fossil: 0.01,
+                        }
+                    },
+                    4: {
+                        layerName: "Abyss",
+                        unlockCost: 2000,
+                        unminedColor: "#8b7355",
+                        layerResources: {
+                            coal: 0.1,
+                            iron: 0.15,
+                            gold: 0.25,
+                            gems: 0.45,
+                            fossil: 0.01,
+                        }
+                    },
+                    5: {
+                        layerName: "Deep Dark",
+                        unlockCost: 10000,
+                        unminedColor: "#8b7355",
+                        layerResources: {
+                            iron: 0.1,
+                            gold: 0.3,
+                            gems: 0.5,
+                            fossil: 0.02,
+                            deep_geode: 0.015,
+                        }
+                    },
+                    6: {
+                        layerName: "Dark Caverns",
+                        unlockCost: 100000,
+                        unminedColor: "#8b7355",
+                        layerResources: {
+                            gold: 0.30,
+                            gems: 0.40,
+                            fossil: 0.1,
+                            deep_geode: 0.04,
+                            dark_iron: 0.015
+                        }
+                    },
+                }
 
                 this.initializeGame();
                 this.updateUI();
@@ -312,7 +372,7 @@
                     tileElement.dataset.index = index;
                     
                     if (tile.mined && tile.resource) {
-                        const resourceData = this.resources[this.currentLayer][tile.resource];
+                        const resourceData = this.resources[tile.resource]; //Changed!
                         tileElement.style.backgroundColor = resourceData.color;
                         tileElement.innerHTML = resourceData.svg;
                     }
@@ -347,12 +407,13 @@
                 this.totalMined++;
 
                 // Determine what resource was found
-                const layerResources = this.resources[this.currentLayer];
+                const layerResources = this.layers[this.currentLayer].layerResources; //Changed!
                 const rand = Math.random();
                 let cumulativeChance = 0;
 
-                for (const [resourceType, data] of Object.entries(layerResources)) {
-                    cumulativeChance += data.chance;
+                //Changed!
+                for (const [resourceType, chance] of Object.entries(layerResources)) {
+                    cumulativeChance += chance;
                     if (rand <= cumulativeChance) {
                         tile.resource = resourceType;
                         this.inventory[resourceType]++;
@@ -382,13 +443,13 @@
                 inventoryElement.innerHTML = '';
 
                 Object.entries(this.inventory).forEach(([resource, count]) => {
-                    const resourceData = this.resources[this.currentLayer][resource];
+                    const resourceData = this.resources[resource]; //Changed!
                     const itemElement = document.createElement('div');
                     itemElement.className = 'inventory-item';
                     
                     itemElement.innerHTML = `
                         <div>${resourceData.svg}</div>
-                        <div>${resource.charAt(0).toUpperCase() + resource.slice(1)}</div>
+                        <div>${resourceData.name}</div>
                         <div>${count}</div>
                         <div>$${resourceData.value} each</div>
                         <button class="sell-btn" onclick="game.sellResource('${resource}')" ${count === 0 ? 'disabled' : ''}>
@@ -404,7 +465,7 @@
                 const count = this.inventory[resourceType];
                 if (count === 0) return;
 
-                const value = this.resources[this.currentLayer][resourceType].value;
+                const value = this.resources[resourceType].value; //Changed!
                 const totalValue = count * value;
                 
                 this.money += totalValue;
@@ -416,9 +477,11 @@
 
             unlockNextLayer() {
                 const nextLayer = this.currentLayer + 1;
-                const cost = this.unlockCosts[nextLayer];
-                
-                if (this.money >= cost && nextLayer <= 5) {
+                const cost = this.layers[nextLayer].unlockCost; //Changed!
+                const maxLayer = Object.keys(this.layers).length
+
+                //Changed!
+                if (this.money >= cost && nextLayer <= maxLayer) {
                     this.money -= cost;
                     this.currentLayer = nextLayer;
                     this.generateGrid();
@@ -431,17 +494,19 @@
             updateUI() {
                 document.getElementById('money').textContent = `$${this.money}`;
                 document.getElementById('totalMined').textContent = this.totalMined;
-                document.getElementById('layerInfo').textContent = `Layer ${this.currentLayer} - ${this.layerNames[this.currentLayer]}`;
+                document.getElementById('layerInfo').textContent = `Layer ${this.currentLayer} - ${this.layers[this.currentLayer].layerName}`; //Changed!
 
                 const unlockBtn = document.getElementById('unlockBtn');
                 const progressInfo = document.getElementById('progressInfo');
-                
-                if (this.currentLayer < 5) {
+                const maxLayer = Object.keys(this.layers).length
+
+                //Changed! hardcoded layer cap
+                if (this.currentLayer < maxLayer) {
                     const nextLayer = this.currentLayer + 1;
-                    const cost = this.unlockCosts[nextLayer];
-                    unlockBtn.textContent = `Unlock ${this.layerNames[nextLayer]} ($${cost})`;
+                    const cost = this.layers[nextLayer].unlockCost; //Changed!
+                    unlockBtn.textContent = `Unlock ${this.layers[nextLayer].layerName} ($${cost})`; //Changed!
                     unlockBtn.disabled = this.money < cost;
-                    progressInfo.textContent = `Earn $${cost} to unlock ${this.layerNames[nextLayer]} with better resources!`;
+                    progressInfo.textContent = `Earn $${cost} to unlock ${this.layers[nextLayer].layerName} with better resources!`; //Changed!
                 } else {
                     unlockBtn.style.display = 'none';
                     progressInfo.textContent = 'You have unlocked all layers! Keep mining for maximum profit!';
