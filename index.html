@@ -165,6 +165,12 @@
             font-size: 1.2em;
             color: #f39c12;
         }
+
+        .resource-icon {
+            width: 30px;
+            height: 30px;
+        }
+
     </style>
 </head>
 <body>
@@ -211,44 +217,51 @@
                     iron: 0,
                     gold: 0,
                     gems: 0,
-                    fossil: 0
+                    fossil: 0,
+                    deep_geode: 0
                 };
 
                 this.resources = {
                     1: { // Layer 1
-                        coal: { chance: 0.4, value: 2, color: '#2c3e50', symbol: 'C' },
-                        iron: { chance: 0.2, value: 5, color: '#95a5a6', symbol: 'I' },
-                        gold: { chance: 0.05, value: 20, color: '#f1c40f', symbol: 'G' },
-                        gems: { chance: 0.01, value: 50, color: '#9b59b6', symbol: '♦' },
-                        fossil: { chance: 0.001, value: 999, color: '#9FF', symbol: 'F'}
+                        coal: { chance: 0.4, value: 2, color: '000', svg: '<svg class="resource-icon" viewBox="0 0 24 24"><path fill="#2c3e50" d="M12 2L8 8L12 14L16 8L12 2M6 10L2 16L6 22L10 16L6 10M18 10L14 16L18 22L22 16L18 10Z"/></svg>' },
+                        iron: { chance: 0.2, value: 5, color: '000', svg: '<svg class="resource-icon" viewBox="0 0 24 24"><rect fill="#95a5a6" x="4" y="6" width="16" height="12" rx="2"/></svg>' },
+                        gold: { chance: 0.05, value: 20, color: '000', svg: '<svg class="resource-icon" viewBox="0 0 24 24"><path fill="#f1c40f" d="M12 2L15 9H22L16.5 14L18.5 22L12 18L5.5 22L7.5 14L2 9H9L12 2Z"/></svg>' },
+                        gems: { chance: 0.01, value: 50, color: '000', svg: '<svg class="resource-icon" viewBox="0 0 24 24"><path fill="#9b59b6" d="M6 2L2 8L12 22L22 8L18 2H6M12 4L8.5 8L12 18L15.5 8L12 4Z"/></svg>' },
+                        fossil: { chance: 0.001, value: 999, color: '000', svg: '<svg class="resource-icon" viewBox="0 0 24 24"><circle fill="#8b7355" cx="12" cy="12" r="10"/><path fill="#654321" d="M8 8C8 6 10 6 10 8S8 10 8 8M16 8C16 6 18 6 18 8S16 10 16 8M7 14C7 12 17 12 17 14C17 16 7 16 7 14Z"/><circle fill="#654321" cx="6" cy="11" r="1"/><circle fill="#654321" cx="18" cy="11" r="1"/></svg>'},
+                        deep_geode: { chance: 0, value: 20000, color: '000', svg: '<svg class="resource-icon" viewBox="0 0 24 24"><ellipse fill="#5d4037" cx="12" cy="12" rx="10" ry="8"/><ellipse fill="#8e24aa" cx="12" cy="12" rx="6" ry="4"/><ellipse fill="#e91e63" cx="12" cy="12" rx="3" ry="2"/><circle fill="#ffffff" cx="12" cy="12" r="1"/></svg>'}
+
                     },
                     2: { // Layer 2
-                        coal: { chance: 0.3, value: 3, color: '#2c3e50', symbol: 'C' },
-                        iron: { chance: 0.3, value: 7, color: '#95a5a6', symbol: 'I' },
-                        gold: { chance: 0.15, value: 25, color: '#f1c40f', symbol: 'G' },
-                        gems: { chance: 0.05, value: 75, color: '#9b59b6', symbol: '♦' },
-                        fossil: { chance: 0.005, value: 999, color: '#9FF', symbol: 'F'}
+                        coal: { chance: 0.3, value: 3, color: '000', svg: '<svg class="resource-icon" viewBox="0 0 24 24"><path fill="#2c3e50" d="M12 2L8 8L12 14L16 8L12 2M6 10L2 16L6 22L10 16L6 10M18 10L14 16L18 22L22 16L18 10Z"/></svg>' },
+                        iron: { chance: 0.3, value: 7, color: '000', svg: '<svg class="resource-icon" viewBox="0 0 24 24"><rect fill="#95a5a6" x="4" y="6" width="16" height="12" rx="2"/></svg>' },
+                        gold: { chance: 0.15, value: 25, color: '000', svg: '<svg class="resource-icon" viewBox="0 0 24 24"><path fill="#f1c40f" d="M12 2L15 9H22L16.5 14L18.5 22L12 18L5.5 22L7.5 14L2 9H9L12 2Z"/></svg>' },
+                        gems: { chance: 0.05, value: 75, color: '000', svg: '<svg class="resource-icon" viewBox="0 0 24 24"><path fill="#9b59b6" d="M6 2L2 8L12 22L22 8L18 2H6M12 4L8.5 8L12 18L15.5 8L12 4Z"/></svg>' },
+                        fossil: { chance: 0.005, value: 999, color: '000', svg: '<svg class="resource-icon" viewBox="0 0 24 24"><circle fill="#8b7355" cx="12" cy="12" r="10"/><path fill="#654321" d="M8 8C8 6 10 6 10 8S8 10 8 8M16 8C16 6 18 6 18 8S16 10 16 8M7 14C7 12 17 12 17 14C17 16 7 16 7 14Z"/><circle fill="#654321" cx="6" cy="11" r="1"/><circle fill="#654321" cx="18" cy="11" r="1"/></svg>'},
+                        deep_geode: { chance: 0, value: 20000, color: '000', svg: '<svg class="resource-icon" viewBox="0 0 24 24"><ellipse fill="#5d4037" cx="12" cy="12" rx="10" ry="8"/><ellipse fill="#8e24aa" cx="12" cy="12" rx="6" ry="4"/><ellipse fill="#e91e63" cx="12" cy="12" rx="3" ry="2"/><circle fill="#ffffff" cx="12" cy="12" r="1"/></svg>'}
                     },
                     3: { // Layer 3
-                        coal: { chance: 0.2, value: 4, color: '#2c3e50', symbol: 'C' },
-                        iron: { chance: 0.25, value: 10, color: '#95a5a6', symbol: 'I' },
-                        gold: { chance: 0.25, value: 35, color: '#f1c40f', symbol: 'G' },
-                        gems: { chance: 0.15, value: 100, color: '#9b59b6', symbol: '♦' },
-                        fossil: { chance: 0.01, value: 999, color: '#9FF', symbol: 'F'}
+                        coal: { chance: 0.2, value: 4, color: '000', svg: '<svg class="resource-icon" viewBox="0 0 24 24"><path fill="#2c3e50" d="M12 2L8 8L12 14L16 8L12 2M6 10L2 16L6 22L10 16L6 10M18 10L14 16L18 22L22 16L18 10Z"/></svg>' },
+                        iron: { chance: 0.25, value: 10, color: '000', svg: '<svg class="resource-icon" viewBox="0 0 24 24"><rect fill="#95a5a6" x="4" y="6" width="16" height="12" rx="2"/></svg>' },
+                        gold: { chance: 0.25, value: 35, color: '000', svg: '<svg class="resource-icon" viewBox="0 0 24 24"><path fill="#f1c40f" d="M12 2L15 9H22L16.5 14L18.5 22L12 18L5.5 22L7.5 14L2 9H9L12 2Z"/></svg>' },
+                        gems: { chance: 0.15, value: 100, color: '000', svg: '<svg class="resource-icon" viewBox="0 0 24 24"><path fill="#9b59b6" d="M6 2L2 8L12 22L22 8L18 2H6M12 4L8.5 8L12 18L15.5 8L12 4Z"/></svg>' },
+                        fossil: { chance: 0.01, value: 999, color: '000', svg: '<svg class="resource-icon" viewBox="0 0 24 24"><circle fill="#8b7355" cx="12" cy="12" r="10"/><path fill="#654321" d="M8 8C8 6 10 6 10 8S8 10 8 8M16 8C16 6 18 6 18 8S16 10 16 8M7 14C7 12 17 12 17 14C17 16 7 16 7 14Z"/><circle fill="#654321" cx="6" cy="11" r="1"/><circle fill="#654321" cx="18" cy="11" r="1"/></svg>'},
+                        deep_geode: { chance: 0, value: 20000, color: '000', svg: '<svg class="resource-icon" viewBox="0 0 24 24"><ellipse fill="#5d4037" cx="12" cy="12" rx="10" ry="8"/><ellipse fill="#8e24aa" cx="12" cy="12" rx="6" ry="4"/><ellipse fill="#e91e63" cx="12" cy="12" rx="3" ry="2"/><circle fill="#ffffff" cx="12" cy="12" r="1"/></svg>'}
                     },
                     4: { // Layer 4
-                        coal: { chance: 0.1, value: 4, color: '#2c3e50', symbol: 'C' },
-                        iron: { chance: 0.15, value: 10, color: '#95a5a6', symbol: 'I' },
-                        gold: { chance: 0.25, value: 35, color: '#f1c40f', symbol: 'G' },
-                        gems: { chance: 0.45, value: 100, color: '#9b59b6', symbol: '♦' },
-                        fossil: { chance: 0.01, value: 999, color: '#9FF', symbol: 'F'}
+                        coal: { chance: 0.1, value: 4, color: '000', svg: '<svg class="resource-icon" viewBox="0 0 24 24"><path fill="#2c3e50" d="M12 2L8 8L12 14L16 8L12 2M6 10L2 16L6 22L10 16L6 10M18 10L14 16L18 22L22 16L18 10Z"/></svg>' },
+                        iron: { chance: 0.15, value: 10, color: '000', svg: '<svg class="resource-icon" viewBox="0 0 24 24"><rect fill="#95a5a6" x="4" y="6" width="16" height="12" rx="2"/></svg>' },
+                        gold: { chance: 0.25, value: 35, color: '000', svg: '<svg class="resource-icon" viewBox="0 0 24 24"><path fill="#f1c40f" d="M12 2L15 9H22L16.5 14L18.5 22L12 18L5.5 22L7.5 14L2 9H9L12 2Z"/></svg>' },
+                        gems: { chance: 0.45, value: 100, color: '000', svg: '<svg class="resource-icon" viewBox="0 0 24 24"><path fill="#9b59b6" d="M6 2L2 8L12 22L22 8L18 2H6M12 4L8.5 8L12 18L15.5 8L12 4Z"/></svg>' },
+                        fossil: { chance: 0.01, value: 999, color: '000', svg: '<svg class="resource-icon" viewBox="0 0 24 24"><circle fill="#8b7355" cx="12" cy="12" r="10"/><path fill="#654321" d="M8 8C8 6 10 6 10 8S8 10 8 8M16 8C16 6 18 6 18 8S16 10 16 8M7 14C7 12 17 12 17 14C17 16 7 16 7 14Z"/><circle fill="#654321" cx="6" cy="11" r="1"/><circle fill="#654321" cx="18" cy="11" r="1"/></svg>'},
+                        deep_geode: { chance: 0, value: 20000, color: '000', svg: '<svg class="resource-icon" viewBox="0 0 24 24"><ellipse fill="#5d4037" cx="12" cy="12" rx="10" ry="8"/><ellipse fill="#8e24aa" cx="12" cy="12" rx="6" ry="4"/><ellipse fill="#e91e63" cx="12" cy="12" rx="3" ry="2"/><circle fill="#ffffff" cx="12" cy="12" r="1"/></svg>'}
                     },
                     5: { // Layer 5
-                        coal: { chance: 0.0, value: 4, color: '#2c3e50', symbol: 'C' },
-                        iron: { chance: 0.1, value: 10, color: '#95a5a6', symbol: 'I' },
-                        gold: { chance: 0.30, value: 35, color: '#f1c40f', symbol: 'G' },
-                        gems: { chance: 0.50, value: 100, color: '#9b59b6', symbol: '♦' },
-                        fossil: { chance: 0.02, value: 999, color: '#9FF', symbol: 'F'}
+                        coal: { chance: 0.0, value: 4, color: '000', svg: '<svg class="resource-icon" viewBox="0 0 24 24"><path fill="#2c3e50" d="M12 2L8 8L12 14L16 8L12 2M6 10L2 16L6 22L10 16L6 10M18 10L14 16L18 22L22 16L18 10Z"/></svg>' },
+                        iron: { chance: 0.1, value: 10, color: '000', svg: '<svg class="resource-icon" viewBox="0 0 24 24"><rect fill="#95a5a6" x="4" y="6" width="16" height="12" rx="2"/></svg>' },
+                        gold: { chance: 0.30, value: 35, color: '000', svg: '<svg class="resource-icon" viewBox="0 0 24 24"><path fill="#f1c40f" d="M12 2L15 9H22L16.5 14L18.5 22L12 18L5.5 22L7.5 14L2 9H9L12 2Z"/></svg>' },
+                        gems: { chance: 0.50, value: 100, color: '000', svg: '<svg class="resource-icon" viewBox="0 0 24 24"><path fill="#9b59b6" d="M6 2L2 8L12 22L22 8L18 2H6M12 4L8.5 8L12 18L15.5 8L12 4Z"/></svg>' },
+                        fossil: { chance: 0.02, value: 999, color: '000', svg: '<svg class="resource-icon" viewBox="0 0 24 24"><circle fill="#8b7355" cx="12" cy="12" r="10"/><path fill="#654321" d="M8 8C8 6 10 6 10 8S8 10 8 8M16 8C16 6 18 6 18 8S16 10 16 8M7 14C7 12 17 12 17 14C17 16 7 16 7 14Z"/><circle fill="#654321" cx="6" cy="11" r="1"/><circle fill="#654321" cx="18" cy="11" r="1"/></svg>'},
+                        deep_geode: { chance: 0.015, value: 20000, color: '000', svg: '<svg class="resource-icon" viewBox="0 0 24 24"><ellipse fill="#5d4037" cx="12" cy="12" rx="10" ry="8"/><ellipse fill="#8e24aa" cx="12" cy="12" rx="6" ry="4"/><ellipse fill="#e91e63" cx="12" cy="12" rx="3" ry="2"/><circle fill="#ffffff" cx="12" cy="12" r="1"/></svg>'}
                     }
                 };
 
@@ -301,7 +314,7 @@
                     if (tile.mined && tile.resource) {
                         const resourceData = this.resources[this.currentLayer][tile.resource];
                         tileElement.style.backgroundColor = resourceData.color;
-                        tileElement.textContent = resourceData.symbol;
+                        tileElement.innerHTML = resourceData.svg;
                     }
                     
                     gridElement.appendChild(tileElement);
@@ -310,8 +323,14 @@
 
             setupEventListeners() {
                 document.getElementById('miningGrid').addEventListener('click', (e) => {
-                    if (e.target.classList.contains('tile') && !e.target.classList.contains('mined')) {
-                        this.mineTile(parseInt(e.target.dataset.index));
+                    let target = e.target;
+                    // If we clicked on an SVG or path inside a tile, find the parent tile
+                    while (target && !target.classList.contains('tile')) {
+                        target = target.parentElement;
+                    }
+                    
+                    if (target && target.classList.contains('tile') && !target.classList.contains('mined')) {
+                        this.mineTile(parseInt(target.dataset.index));
                     }
                 });
 
@@ -368,7 +387,7 @@
                     itemElement.className = 'inventory-item';
                     
                     itemElement.innerHTML = `
-                        <div style="color: ${resourceData.color}; font-size: 1.5em;">${resourceData.symbol}</div>
+                        <div>${resourceData.svg}</div>
                         <div>${resource.charAt(0).toUpperCase() + resource.slice(1)}</div>
                         <div>${count}</div>
                         <div>$${resourceData.value} each</div>
