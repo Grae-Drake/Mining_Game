@@ -13,6 +13,10 @@
             padding: 20px;
         }
 
+        a {
+            color: #f39c12;
+        }
+
         .game-container {
             max-width: 1000px;
             margin: 0 auto;
@@ -194,6 +198,20 @@
             background-color: #c0392b;
         }
 
+        .game-footer {
+            background-color: #34495e;
+            text-align: center;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 8px;
+            color: #bdc3c7;
+            font-size: 0.9em;
+        }
+
+        .game-footer p {
+            margin: 0;
+        }
+
     </style>
 </head>
 <body>
@@ -228,7 +246,13 @@
             <div id="progressInfo">Mine more to unlock deeper layers with better resources!</div>
             <button class="unlock-btn" id="unlockBtn" disabled>Unlock Next Layer ($100)</button>
         </div>
+
+        <footer class="game-footer">
+            <p>Created by Kieran and Benji with help from Claude and Dad</p>
+            <p><a href="https://github.com/Grae-Drake/Mining_Game">Code</a></p>
+        </footer>
     </div>
+
 
     <script>
         class MiningGame {
