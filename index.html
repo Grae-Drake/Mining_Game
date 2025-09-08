@@ -171,12 +171,37 @@
             height: 30px;
         }
 
+        .action-btn {
+            background-color: #34495e;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            margin: 0 5px;
+        }
+
+        .action-btn:hover {
+            background-color: #2c3e50;
+        }
+
+        .action-btn.reset {
+            background-color: #e74c3c;
+        }
+
+        .action-btn.reset:hover {
+            background-color: #c0392b;
+        }
+
     </style>
 </head>
 <body>
     <div class="game-container">
         <div class="header">
             <h1>Mining Game</h1>
+            <button class="action-btn" onclick="game.saveGame()">Save Game</button>
+            <button class="action-btn reset"onclick="game.resetGame()">Reset Game</button>
             <div class="stats">
                 <div class="stat">
                     <div class="stat-value" id="money">$0</div>
@@ -209,7 +234,7 @@
         class MiningGame {
             constructor() {
                 // Initialize starting values.
-                this.money = 0;
+                this.money = 1000000000;
                 this.totalMined = 0;
                 this.currentLayer = 1;
                 this.grid = [];
@@ -220,44 +245,43 @@
                     coal: {
                         name: "Coal",
                         value: 2,
-                        color: '#000',
-                        svg: '<svg class="resource-icon" viewBox="0 0 24 24"><path fill="#2c3e50" d="M12 2L8 8L12 14L16 8L12 2M6 10L2 16L6 22L10 16L6 10M18 10L14 16L18 22L22 16L18 10Z"/></svg>',
+                        color: '2c3e50',
+                        svg: '<svg class="resource-icon" viewBox="0 0 24 24"><path fill="#000" d="M12 2L8 8L12 14L16 8L12 2M6 10L2 16L6 22L10 16L6 10M18 10L14 16L18 22L22 16L18 10Z"/></svg>',
                     },
                     iron: {
                         name: "Iron",
                         value: 5,
-                        color: '#000',
+                        color: '2c3e50',
                         svg: '<svg class="resource-icon" viewBox="0 0 24 24"><rect fill="#95a5a6" x="4" y="6" width="16" height="12" rx="2"/></svg>',
                     },
                     gold: {
                         name: "Gold",
                         value: 20,
-                        color: '#000',
-                        svg: '<svg class="resource-icon" viewBox="0 0 24 24"><path fill="#f1c40f" d="M12 2L15 9H22L16.5 14L18.5 22L12 18L5.5 22L7.5 14L2 9H9L12 2Z"/></svg>',
+                        color: '2c3e50',
+                            svg: '<svg class="resource-icon" viewBox="0 0 24 24"><rect fill="#f1c40f" x="4" y="6" width="16" height="12" rx="2"/></svg>',
                     },
                     gems: {
                         name: "Gems",
                         value: 50,
-                        color: '#000',
+                        color: '2c3e50',
                         svg: '<svg class="resource-icon" viewBox="0 0 24 24"><path fill="#9b59b6" d="M6 2L2 8L12 22L22 8L18 2H6M12 4L8.5 8L12 18L15.5 8L12 4Z"/></svg>',
                     },
                     fossil: {
                         name: "Fossil",
                         value: 999,
-                        color: '#000',
-                        svg: '<svg class="resource-icon" viewBox="0 0 24 24"><circle fill="#8b7355" cx="12" cy="12" r="10"/><path fill="#654321" d="M8 8C8 6 10 6 10 8S8 10 8 8M16 8C16 6 18 6 18 8S16 10 16 8M7 14C7 12 17 12 17 14C17 16 7 16 7 14Z"/><circle fill="#654321" cx="6" cy="11" r="1"/><circle fill="#654321" cx="18" cy="11" r="1"/></svg>',
-                    },
+                        color: '2c3e50',
+                        svg: '<svg class="resource-icon" viewBox="0 0 24 24"><ellipse fill="#d4c5a1" cx="5" cy="12" rx="3" ry="2.5"/><rect fill="#d4c5a1" x="6" y="10.5" width="12" height="3" rx="1"/><ellipse fill="#d4c5a1" cx="19" cy="12" rx="3" ry="2.5"/><circle fill="#c7b798" cx="4" cy="11" r="1"/><circle fill="#c7b798" cx="5" cy="13.5" r="0.8"/><circle fill="#c7b798" cx="19" cy="11" r="1"/><circle fill="#c7b798" cx="20" cy="13.5" r="0.8"/></svg>',                    },
                     deep_geode: {
                         name: "Deep Geode",
                         value: 20000,
-                        color: '#000',
-                        svg: '<svg class="resource-icon" viewBox="0 0 24 24"><ellipse fill="#5d4037" cx="12" cy="12" rx="10" ry="8"/><ellipse fill="#8e24aa" cx="12" cy="12" rx="6" ry="4"/><ellipse fill="#e91e63" cx="12" cy="12" rx="3" ry="2"/><circle fill="#ffffff" cx="12" cy="12" r="1"/></svg>',
+                        color: '2c3e50',
+                            svg: '<svg class="resource-icon" viewBox="0 0 24 24"><ellipse fill="#3E2711" cx="12" cy="12" rx="10" ry="8"/><ellipse fill="#D5D3D7" cx="12" cy="12" rx="8" ry="6"/><ellipse fill="#87ceeb" cx="12" cy="12" rx="7" ry="5"/><ellipse fill="#3498db" cx="12" cy="12" rx="6" ry="4"/><ellipse fill="#1048AB" cx="12" cy="12" rx="4" ry="3"/></svg>',
                     },
                     dark_iron: {
                         name: "Dark Iron",
                         value: 77777,
-                        color: "#000",
-                        svg: '<svg class="resource-icon" viewBox="0 0 24 24"><rect fill="#34495e" x="4" y="6" width="16" height="12" rx="2"/></svg>',
+                        color: '2c3e50',
+                        svg: '<svg class="resource-icon" viewBox="0 0 24 24"><rect fill="#14292e" x="4" y="6" width="16" height="12" rx="2"/></svg>',
                     }
                 }
 
@@ -282,7 +306,7 @@
                     2: {
                         layerName: "Underground", 
                         unlockCost: 100,
-                        unminedColor: "#8b7355",
+                        unminedColor: "#7f6a4c",
                         layerResources: {
                             coal: 0.3,
                             iron: 0.3,
@@ -294,7 +318,7 @@
                     3: {
                         layerName: "Deep Caverns",
                         unlockCost: 500,
-                        unminedColor: "#8b7355",
+                        unminedColor: "#6b5d42",
                         layerResources: {
                             coal: 0.2,
                             iron: 0.25,
@@ -306,7 +330,7 @@
                     4: {
                         layerName: "Abyss",
                         unlockCost: 2000,
-                        unminedColor: "#8b7355",
+                        unminedColor: "#584631",
                         layerResources: {
                             coal: 0.1,
                             iron: 0.15,
@@ -318,7 +342,7 @@
                     5: {
                         layerName: "Deep Dark",
                         unlockCost: 10000,
-                        unminedColor: "#8b7355",
+                        unminedColor: "#473725",
                         layerResources: {
                             iron: 0.1,
                             gold: 0.3,
@@ -330,7 +354,7 @@
                     6: {
                         layerName: "Dark Caverns",
                         unlockCost: 100000,
-                        unminedColor: "#8b7355",
+                        unminedColor: "#362819",
                         layerResources: {
                             gold: 0.30,
                             gems: 0.40,
@@ -341,7 +365,15 @@
                     },
                 }
 
-                this.initializeGame();
+                // Try to load saved game, otherwise initialize new game
+                if (!this.loadGame()) {
+                    this.initializeGame();
+                } else {
+                    // If loaded successfully, just update UI and setup listeners
+                    this.renderGrid();
+                    this.renderInventory();
+                    this.setupEventListeners();
+                }
                 this.updateUI();
             }
 
@@ -372,9 +404,12 @@
                     tileElement.dataset.index = index;
                     
                     if (tile.mined && tile.resource) {
-                        const resourceData = this.resources[tile.resource]; //Changed!
+                        const resourceData = this.resources[tile.resource];
                         tileElement.style.backgroundColor = resourceData.color;
                         tileElement.innerHTML = resourceData.svg;
+                    } else if (!tile.mined) {
+                        // Set the unmined tile color based on current layer
+                        tileElement.style.backgroundColor = this.layers[this.currentLayer].unminedColor;
                     }
                     
                     gridElement.appendChild(tileElement);
@@ -425,6 +460,8 @@
                 this.renderInventory();
                 this.updateUI();
                 this.checkForNewGrid();
+                this.saveGame();
+
             }
 
             checkForNewGrid() {
@@ -443,19 +480,37 @@
                 inventoryElement.innerHTML = '';
 
                 Object.entries(this.inventory).forEach(([resource, count]) => {
-                    const resourceData = this.resources[resource]; //Changed!
+                    const resourceData = this.resources[resource];
                     const itemElement = document.createElement('div');
                     itemElement.className = 'inventory-item';
                     
-                    itemElement.innerHTML = `
-                        <div>${resourceData.svg}</div>
-                        <div>${resourceData.name}</div>
-                        <div>${count}</div>
-                        <div>$${resourceData.value} each</div>
-                        <button class="sell-btn" onclick="game.sellResource('${resource}')" ${count === 0 ? 'disabled' : ''}>
-                            Sell All ($${count * resourceData.value})
-                        </button>
-                    `;
+                    if (count > 0) {
+                        // Show normal inventory item
+                        itemElement.innerHTML = `
+                            <div>${resourceData.svg}</div>
+                            <div>${resourceData.name}</div>
+                            <div>${count}</div>
+                            <div>$${resourceData.value} each</div>
+                            <button class="sell-btn" onclick="game.sellResource('${resource}')">
+                                Sell All ($${count * resourceData.value})
+                            </button>
+                        `;
+                    } else {
+                        // Show placeholder for undiscovered resource
+                        itemElement.innerHTML = `
+                            <div style="opacity: 0.3;">
+                                <svg class="resource-icon" viewBox="0 0 24 24">
+                                    <rect fill="#666" x="6" y="6" width="12" height="12" rx="2"/>
+                                    <text x="12" y="14" text-anchor="middle" fill="#fff" font-size="8">?</text>
+                                </svg>
+                            </div>
+                            <div style="opacity: 0.5;">Unknown</div>
+                            <div style="opacity: 0.5;">0</div>
+                            <div style="opacity: 0.5;">???</div>
+                            <button class="sell-btn" disabled>Undiscovered</button>
+                        `;
+                        itemElement.style.opacity = '0.6';
+                    }
                     
                     inventoryElement.appendChild(itemElement);
                 });
@@ -473,6 +528,8 @@
                 
                 this.renderInventory();
                 this.updateUI();
+                this.saveGame();
+
             }
 
             unlockNextLayer() {
@@ -488,6 +545,8 @@
                     this.renderGrid();
                     this.renderInventory();
                     this.updateUI();
+                    this.saveGame();
+
                 }
             }
 
@@ -510,6 +569,46 @@
                 } else {
                     unlockBtn.style.display = 'none';
                     progressInfo.textContent = 'You have unlocked all layers! Keep mining for maximum profit!';
+                }
+            }
+            
+            saveGame() {
+                const gameState = {
+                    money: this.money,
+                    totalMined: this.totalMined,
+                    currentLayer: this.currentLayer,
+                    inventory: this.inventory,
+                    grid: this.grid
+                };
+                localStorage.setItem('miningGameSave', JSON.stringify(gameState));
+            }
+
+            loadGame() {
+                const savedGame = localStorage.getItem('miningGameSave');
+                if (savedGame) {
+                    const gameState = JSON.parse(savedGame);
+                    this.money = gameState.money || 0;
+                    this.totalMined = gameState.totalMined || 0;
+                    this.currentLayer = gameState.currentLayer || 1;
+                    this.inventory = gameState.inventory || {};
+                    this.grid = gameState.grid || [];
+                    
+                    // Ensure all resource types exist in inventory
+                    Object.keys(this.resources).forEach((resourceType) => {
+                        if (this.inventory[resourceType] === undefined) {
+                            this.inventory[resourceType] = 0;
+                        }
+                    });
+                    
+                    return true; // Successfully loaded
+                }
+                return false; // No save found
+            }
+
+            resetGame() {
+                if (confirm('Are you sure you want to reset your game? This cannot be undone.')) {
+                    localStorage.removeItem('miningGameSave');
+                    location.reload();
                 }
             }
         }
