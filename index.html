@@ -258,7 +258,7 @@
         class MiningGame {
             constructor() {
                 // Initialize starting values.
-                this.money = 0;
+                this.money = 10000000000;
                 this.totalMined = 0;
                 this.currentLayer = 1;
                 this.grid = [];
@@ -306,6 +306,18 @@
                         value: 77777,
                         color: '2c3e50',
                         svg: '<svg class="resource-icon" viewBox="0 0 24 24"><rect fill="#14292e" x="4" y="6" width="16" height="12" rx="2"/></svg>',
+                    },
+                    diamonds: {
+                        name: "Diamond",
+                        value: 900,
+                        color: '2c3e50',
+                        svg: '<svg class="resource-icon" viewBox="0 0 24 24"><path fill="#B9F2FF" d="M6 2L2 8L12 22L22 8L18 2H6M12 4L8.5 8L12 18L15.5 8L12 4Z"/></svg>',
+                    },
+                    lapis: {
+                        name: "lapis",
+                        value: 5000,
+                        color: '2c3e50',
+                            svg: '<svg class="resource-icon" viewBox="0 0 24 24"><rect fill="#1e3a8a" x="4" y="6" width="16" height="12" rx="2"/><path fill="#6b7280" d="M4 8 Q8 10 12 9 T20 11 L20 13 Q16 12 12 13 T4 11 Z"/><path fill="#3b82f6" d="M6 10 Q10 8 14 10 T18 9 L18 15 Q14 13 10 15 T6 14 Z"/><circle fill="#fbbf24" cx="8" cy="9" r="0.4"/><circle fill="#fbbf24" cx="15" cy="12" r="0.3"/><circle fill="#fbbf24" cx="11" cy="15" r="0.3"/></svg>',
                     }
                 }
 
@@ -385,6 +397,21 @@
                             fossil: 0.1,
                             deep_geode: 0.04,
                             dark_iron: 0.015
+                        }
+                    },
+                    7: {
+                        layerName: "the unknown caverns",
+                        unlockCost: 500000,
+                        unminedColor: "#000",
+                        layerResources: {
+                            gold: 0.20,
+                            gems: 0.30.,
+                            fossil: 0.02.,
+                            deep_geode: 0.07.,
+                            dark_iron: 0.5.,
+                            daimonds: 0.07.,
+                            lapis: 0.30.,
+
                         }
                     },
                 }
