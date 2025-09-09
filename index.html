@@ -258,7 +258,7 @@
         class MiningGame {
             constructor() {
                 // Initialize starting values.
-                this.money = 10000000000;
+                this.money = 0;
                 this.totalMined = 0;
                 this.currentLayer = 1;
                 this.grid = [];
@@ -308,8 +308,8 @@
                         svg: '<svg class="resource-icon" viewBox="0 0 24 24"><rect fill="#14292e" x="4" y="6" width="16" height="12" rx="2"/></svg>',
                     },
                     diamonds: {
-                        name: "Diamond",
-                        value: 900,
+                        name: "Diamonds",
+                        value: 50000,
                         color: '2c3e50',
                         svg: '<svg class="resource-icon" viewBox="0 0 24 24"><path fill="#B9F2FF" d="M6 2L2 8L12 22L22 8L18 2H6M12 4L8.5 8L12 18L15.5 8L12 4Z"/></svg>',
                     },
@@ -409,7 +409,7 @@
                             fossil: 0.02,
                             deep_geode: 0.07,
                             dark_iron: 0.05,
-                            daimonds: 0.07,
+                            diamonds: 0.07,
                             lapis: 0.30,
                         }
                     },
