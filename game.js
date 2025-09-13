@@ -25,6 +25,7 @@ class MiningGame {
                 name: "Copper",
                 value: 10,
                 color: '2c3e50',
+                svg: '<svg class="resource-icon" viewBox="0 0 24 24"><rect fill="#b87333" x="4" y="6" width="16" height="12" rx="2"/></svg>',
             },
             gold: {
                 name: "Gold",
@@ -127,8 +128,8 @@ class MiningGame {
             copper_glazed_pot_shard: {
                 name: "copper glazed pot shard",
                 value:500000,
-
-
+                color: '2c3e50',
+                svg: '<svg class="resource-icon" viewBox="0 0 24 24"><defs><clipPath id="topSide"><path d="M0 0 L24 0 L24 13 L22 12 L20 13 L18 12 L16 13 L14 12 L12 13 L10 12 L8 13 L6 12 L0 13 Z"/></clipPath><clipPath id="cracks"><path d="M0 0 L24 0 L24 24 L0 24 Z M4 8 L6 10 L8 12 L10 10 L12 8 M6 14 L8 16 L10 14 L12 16 M14 6 L16 8 L18 6 L20 8"/></clipPath></defs><g clip-path="url(#topSide)"><ellipse fill="#da812eff" cx="8" cy="12" rx="6" ry="5"/><rect fill="#da812eff" x="8" y="10" width="8" height="4"/><ellipse fill="#da812eff" cx="16" cy="12" rx="1.5" ry="3"/><path fill="none" stroke="#654321" stroke-width="0.8" d="M12 8 Q11 12 12 16"/><path fill="none" stroke="#654321" stroke-width="0.8" d="M14 8 Q13 12 14 16"/><path fill="none" stroke="#654321" stroke-width="0.8" d="M16 8 Q15 12 16 16"/><circle fill="#654321" cx="6" cy="10" r="0.4"/><circle fill="#654321" cx="6" cy="14" r="0.4"/><circle fill="#654321" cx="5" cy="12" r="0.4"/><g clip-path="url(#cracks)"><path fill="none" stroke="#4a3728" stroke-width="0.3" d="M4 8 L6 10 L8 12 L10 10 L12 8"/><path fill="none" stroke="#4a3728" stroke-width="0.3" d="M6 14 L8 16 L10 14 L12 16"/><path fill="none" stroke="#4a3728" stroke-width="0.3" d="M14 6 L16 8 L18 6 L20 8"/></g></g></svg>',
             }
         }
 
